@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model as BaseModel;
 
 abstract class Model extends BaseModel
 {
-
     /**
      * Create a new Eloquent query builder for the model.
      *
-     * @param  \Jenssegers\Mongodb\Query\Builder $query
+     * @param \Jenssegers\Mongodb\Query\Builder $query
+     *
      * @return \Jenssegers\Mongodb\Eloquent\Builder|static
      */
     public function newEloquentBuilder($query)
@@ -27,14 +27,16 @@ abstract class Model extends BaseModel
     protected function newBaseQueryBuilder()
     {
         $connection = $this->getConnection();
+
         return new QueryBuilder($connection, $connection->getPostProcessor());
     }
 
     /**
      * Handle dynamic method calls into the method.
      *
-     * @param  string  $method
-     * @param  array   $parameters
+     * @param string $method
+     * @param array  $parameters
+     *
      * @return mixed
      */
     public function __call($method, $parameters)
@@ -43,6 +45,7 @@ abstract class Model extends BaseModel
         if ($method == 'unset') {
             return call_user_func_array([$this, 'drop'], $parameters);
         }
+
         return parent::__call($method, $parameters);
     }
 }

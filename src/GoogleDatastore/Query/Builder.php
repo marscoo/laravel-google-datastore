@@ -2,13 +2,12 @@
 
 namespace GoogleDatastore\Query;
 
-use Illuminate\Database\Query\Builder as BaseBuilder;
-use GoogleDatastore\Connection;
 use GDS\Store as Store;
+use GoogleDatastore\Connection;
+use Illuminate\Database\Query\Builder as BaseBuilder;
 
 class Builder extends BaseBuilder
 {
-
     /**
      * The current query value bindings.
      *
@@ -16,17 +15,18 @@ class Builder extends BaseBuilder
      */
     protected $bindings = [
         'select' => [],
-        'join' => [],
-        'where' => [],
+        'join'   => [],
+        'where'  => [],
         'having' => [],
-        'order' => [],
-        'union' => [],
+        'order'  => [],
+        'union'  => [],
     ];
 
     /**
      * A Builder object.
-     * @param Connection $connection
-     * @param \App\Providers\GoogleDatastore\Query\Grammar $grammar
+     *
+     * @param Connection                                     $connection
+     * @param \App\Providers\GoogleDatastore\Query\Grammar   $grammar
      * @param \App\Providers\GoogleDatastore\Query\Processor $processor
      */
     public function __construct(Connection $connection, Grammar $grammar, Processor $processor)
@@ -39,7 +39,8 @@ class Builder extends BaseBuilder
     /**
      * Execute the query as a "select" statement.
      *
-     * @param  array  $columns
+     * @param array $columns
+     *
      * @return array|static[]
      */
     public function get($columns = [])
