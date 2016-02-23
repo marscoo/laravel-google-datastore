@@ -2,12 +2,11 @@
 
 namespace GoogleDatastore;
 
-use Illuminate\Support\ServiceProvider;
 use App\Providers\GoogleDatastore\Eloquent\Model;
+use Illuminate\Support\ServiceProvider;
 
 class GoogleDatastoreServiceProvider extends ServiceProvider
 {
-
     /**
      * Bootstrap the application services.
      *
@@ -40,6 +39,6 @@ class GoogleDatastoreServiceProvider extends ServiceProvider
      */
     protected function getDefaultQueryGrammar()
     {
-        return $this->withTablePrefix(new QueryGrammar);
+        return $this->withTablePrefix(new QueryGrammar());
     }
 }

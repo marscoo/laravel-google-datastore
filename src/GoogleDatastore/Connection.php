@@ -6,23 +6,20 @@ use GoogleDatastore\Query\Grammar as Grammar;
 
 class Connection extends \Illuminate\Database\Connection
 {
-
     /**
-     *
-     * @var type 
+     * @var type
      */
     protected $googleClient;
 
     /**
-     *
-     * @var type 
+     * @var type
      */
     protected $googleGateway;
 
     /**
      * Create a new database connection instance.
      *
-     * @param  array   $config
+     * @param array $config
      */
     public function __construct(array $config)
     {
@@ -53,8 +50,8 @@ class Connection extends \Illuminate\Database\Connection
     }
 
     /**
-     * 
      * @param type $table
+     *
      * @return Query\Builder
      */
     public function table($table)
@@ -75,8 +72,8 @@ class Connection extends \Illuminate\Database\Connection
     }
 
     /**
-     * 
      * @param type $kind
+     *
      * @return type
      */
     public function kind($kind)
@@ -101,11 +98,12 @@ class Connection extends \Illuminate\Database\Connection
      */
     protected function getDefaultPostProcessor()
     {
-        return new Query\Processor;
+        return new Query\Processor();
     }
 
     /**
      * Get the gateway used for connecting to Google.
+     *
      * @return \GDS\Gateway\GoogleAPIClient
      */
     public function getGoogleGateway()
@@ -122,10 +120,10 @@ class Connection extends \Illuminate\Database\Connection
     {
 
         // We'll need a Google_Client, use our convenience method
-        $this->googleClient = \GDS\Gateway\GoogleAPIClient::createGoogleClient($this->config["appname"], $this->config["service_email"], base_path() . "/resources/assets/" . $this->config["key_file"]);
+        $this->googleClient = \GDS\Gateway\GoogleAPIClient::createGoogleClient($this->config['appname'], $this->config['service_email'], base_path().'/resources/assets/'.$this->config['key_file']);
 
         //THE GATEWAY TO USE
-        $this->googleGateway = new \GDS\Gateway\GoogleAPIClient($this->googleClient, $this->config["project_id"]);
+        $this->googleGateway = new \GDS\Gateway\GoogleAPIClient($this->googleClient, $this->config['project_id']);
 
         return $this->googleClient;
     }
@@ -133,8 +131,9 @@ class Connection extends \Illuminate\Database\Connection
     /**
      * Dynamically pass methods to the connection.
      *
-     * @param  string  $method
-     * @param  array   $parameters
+     * @param string $method
+     * @param array  $parameters
+     *
      * @return mixed
      */
     public function __call($method, $parameters)

@@ -6,11 +6,11 @@ use Illuminate\Database\Query\Grammars\Grammar as BaseGrammar;
 
 class Grammar extends BaseGrammar
 {
-
     /**
      * Get the appropriate query parameter place-holder for a value.
      *
-     * @param  mixed   $value
+     * @param mixed $value
+     *
      * @return string
      */
     public function parameter($value)
@@ -21,7 +21,8 @@ class Grammar extends BaseGrammar
     /**
      * Wrap a single string in keyword identifiers.
      *
-     * @param  string  $value
+     * @param string $value
+     *
      * @return string
      */
     protected function wrapValue($value)
