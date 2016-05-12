@@ -113,7 +113,7 @@ class Connection extends \Illuminate\Database\Connection
 
     /**
      * Create a new MongoDB connection.
-     * 
+     *
      * @return \GDS\Gateway\GoogleAPIClient
      */
     protected function createConnection()
