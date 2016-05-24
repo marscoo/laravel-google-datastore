@@ -2,7 +2,7 @@
 
 namespace GoogleDatastore;
 
-use App\Providers\GoogleDatastore\Eloquent\Model;
+use GoogleDatastore\Eloquent\Model ;
 use Illuminate\Support\ServiceProvider;
 
 class GoogleDatastoreServiceProvider extends ServiceProvider
@@ -26,7 +26,7 @@ class GoogleDatastoreServiceProvider extends ServiceProvider
     {
         // Add database driver.
         $this->app->resolving('db', function ($db) {
-            $db->extend('gdatastore', function ($config) {
+            $db->extend('googledatastore', function ($config) {
                 return new Connection($config);
             });
         });

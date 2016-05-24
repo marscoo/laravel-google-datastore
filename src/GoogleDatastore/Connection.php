@@ -2,10 +2,11 @@
 
 namespace GoogleDatastore;
 
-use GoogleDatastore\Query\Grammar as Grammar;
+use GDS\Store as Store;
 
 class Connection extends \Illuminate\Database\Connection
 {
+
     /**
      * @var type
      */
@@ -30,12 +31,8 @@ class Connection extends \Illuminate\Database\Connection
         // Create the connection
         $this->connection = $this->createConnection();
 
-        // We need to initialize a query grammar and the query post processors
-        // which are both very important parts of the database abstractions
-        // so we initialize these to their default values while starting.
+        //Use default grammar and post processor.
         $this->useDefaultQueryGrammar();
-
-        //Use the default post processor.
         $this->useDefaultPostProcessor();
     }
 
@@ -46,7 +43,7 @@ class Connection extends \Illuminate\Database\Connection
      */
     public function getDriverName()
     {
-        return 'gdatastore';
+        return 'googledatastore';
     }
 
     /**
@@ -66,7 +63,7 @@ class Connection extends \Illuminate\Database\Connection
      */
     public function query()
     {
-        return new Query\Builder(
+        return new \GoogleDatastore\Query\Builder(
             $this, $this->getQueryGrammar(), $this->getPostProcessor()
         );
     }
@@ -82,13 +79,38 @@ class Connection extends \Illuminate\Database\Connection
     }
 
     /**
+     * Run a select query on Datastore
+     * 
+     * @param string $query
+     * @param array $bindings
+     * 
+     */
+    public function select($query, $bindings = [], $from = null)
+    {
+        return $this->run($query, $bindings, function ($me, $query, $bindings) use ($from) {
+
+                if ($me->pretending()) {
+                    return [];
+                }
+
+                //Create the GS Store.
+                $store = new Store($from, $this->googleGateway);
+
+                //Run the query
+                $runQuery = $store->fetchAll($query);
+
+                return $runQuery;
+            });
+    }
+
+    /**
      * Get the default query grammar instance.
      *
      * @return \Illuminate\Database\Query\Grammars\Grammar
      */
     protected function getDefaultQueryGrammar()
     {
-        return new Grammar();
+        return new \GoogleDatastore\Query\Grammar();
     }
 
     /**
@@ -98,7 +120,7 @@ class Connection extends \Illuminate\Database\Connection
      */
     protected function getDefaultPostProcessor()
     {
-        return new Query\Processor();
+        return new \GoogleDatastore\Query\Processor();
     }
 
     /**
@@ -112,15 +134,15 @@ class Connection extends \Illuminate\Database\Connection
     }
 
     /**
-     * Create a new MongoDB connection.
-     *
+     * Create a new datastore connection.
+     * 
      * @return \GDS\Gateway\GoogleAPIClient
      */
     protected function createConnection()
     {
 
         // We'll need a Google_Client, use our convenience method
-        $this->googleClient = \GDS\Gateway\GoogleAPIClient::createGoogleClient($this->config['appname'], $this->config['service_email'], base_path().'/resources/assets/'.$this->config['key_file']);
+        $this->googleClient = \GDS\Gateway\GoogleAPIClient::createGoogleClient($this->config['appname'], $this->config['service_email'], base_path() . '/resources/assets/' . $this->config['key_file']);
 
         //THE GATEWAY TO USE
         $this->googleGateway = new \GDS\Gateway\GoogleAPIClient($this->googleClient, $this->config['project_id']);
@@ -138,6 +160,6 @@ class Connection extends \Illuminate\Database\Connection
      */
     public function __call($method, $parameters)
     {
-        return call_user_func_array([$this->db, $method], $parameters);
+        return call_user_func_array([$this, $method], $parameters);
     }
 }

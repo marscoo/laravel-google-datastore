@@ -2,12 +2,12 @@
 
 namespace GoogleDatastore\Query;
 
-use GDS\Store as Store;
 use GoogleDatastore\Connection;
 use Illuminate\Database\Query\Builder as BaseBuilder;
 
 class Builder extends BaseBuilder
 {
+
     /**
      * The current query value bindings.
      *
@@ -15,11 +15,8 @@ class Builder extends BaseBuilder
      */
     protected $bindings = [
         'select' => [],
-        'join'   => [],
-        'where'  => [],
-        'having' => [],
-        'order'  => [],
-        'union'  => [],
+        'where' => [],
+        'order' => [],
     ];
 
     /**
@@ -43,7 +40,7 @@ class Builder extends BaseBuilder
      *
      * @return array|static[]
      */
-    public function get($columns = [])
+    public function get($columns = ['*'])
     {
         $original = $this->columns;
 
@@ -66,18 +63,7 @@ class Builder extends BaseBuilder
      */
     protected function runSelect()
     {
-        //Convert query to GQL string.
-        $query = $this->toGql();
-
-        //Get the bindings
-        $bindings = $this->getBindings();
-
-        //Create the GS Store.
-        $store = new Store($this->from, $this->connection->getGoogleGateway());
-
-        $runQuery = $store->fetchAll($query, $bindings);
-
-        dd($runQuery);
+        return $this->connection->select($this->toGql(), $this->getBindings(), $this->from);
     }
 
     /**
