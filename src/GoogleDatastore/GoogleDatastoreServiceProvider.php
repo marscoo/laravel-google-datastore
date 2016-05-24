@@ -2,7 +2,7 @@
 
 namespace GoogleDatastore;
 
-use GoogleDatastore\Eloquent\Model ;
+use GoogleDatastore\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
 class GoogleDatastoreServiceProvider extends ServiceProvider

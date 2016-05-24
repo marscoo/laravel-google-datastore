@@ -6,7 +6,6 @@ use GDS\Store as Store;
 
 class Connection extends \Illuminate\Database\Connection
 {
-
     /**
      * @var type
      */
@@ -79,11 +78,10 @@ class Connection extends \Illuminate\Database\Connection
     }
 
     /**
-     * Run a select query on Datastore
-     * 
+     * Run a select query on Datastore.
+     *
      * @param string $query
-     * @param array $bindings
-     * 
+     * @param array  $bindings
      */
     public function select($query, $bindings = [], $from = null)
     {
@@ -135,14 +133,14 @@ class Connection extends \Illuminate\Database\Connection
 
     /**
      * Create a new datastore connection.
-     * 
+     *
      * @return \GDS\Gateway\GoogleAPIClient
      */
     protected function createConnection()
     {
 
         // We'll need a Google_Client, use our convenience method
-        $this->googleClient = \GDS\Gateway\GoogleAPIClient::createGoogleClient($this->config['appname'], $this->config['service_email'], base_path() . '/resources/assets/' . $this->config['key_file']);
+        $this->googleClient = \GDS\Gateway\GoogleAPIClient::createGoogleClient($this->config['appname'], $this->config['service_email'], base_path().'/resources/assets/'.$this->config['key_file']);
 
         //THE GATEWAY TO USE
         $this->googleGateway = new \GDS\Gateway\GoogleAPIClient($this->googleClient, $this->config['project_id']);
