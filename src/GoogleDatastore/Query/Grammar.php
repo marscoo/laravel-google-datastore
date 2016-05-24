@@ -2,12 +2,11 @@
 
 namespace GoogleDatastore\Query;
 
-use Illuminate\Database\Query\Grammars\Grammar as BaseGrammar;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Query\Grammars\Grammar as BaseGrammar;
 
 class Grammar extends BaseGrammar
 {
-
     /**
      * The components that make up a select clause.
      *
@@ -30,7 +29,7 @@ class Grammar extends BaseGrammar
      */
     public function parameter($value)
     {
-        return "'" . $value . "'";
+        return "'".$value."'";
     }
 
     /**
@@ -50,8 +49,8 @@ class Grammar extends BaseGrammar
     }
 
     /**
-     * Compile the select
-     * 
+     * Compile the select.
+     *
      * @param Builder $query
      */
     public function compileSelect(Builder $query)

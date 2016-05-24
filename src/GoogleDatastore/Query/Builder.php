@@ -7,7 +7,6 @@ use Illuminate\Database\Query\Builder as BaseBuilder;
 
 class Builder extends BaseBuilder
 {
-
     /**
      * The current query value bindings.
      *
@@ -15,8 +14,8 @@ class Builder extends BaseBuilder
      */
     protected $bindings = [
         'select' => [],
-        'where' => [],
-        'order' => [],
+        'where'  => [],
+        'order'  => [],
     ];
 
     /**
