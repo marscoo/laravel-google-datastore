@@ -1,5 +1,5 @@
 {
-    "name": "dalejmooney/laravel-google-datastore",
+    "name": "marscoo/laravel-google-datastore",
     "description": "A laravel package for integrating Laravel with Googles Cloud Datastore.",
     "authors": [
         {
